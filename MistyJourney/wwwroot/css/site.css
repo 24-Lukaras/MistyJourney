@@ -2,6 +2,11 @@
 :root {
     --clr-background: #222;
     --clr-text: white;
+    --clr-card-bg: #333;
+    --clr-card-hover: #444;
+    --clr-add-card-hover: #4a4a4a;
+    --clr-nav-bg: #444;
+    --clr-nav-hover: #555;
 }
 
 html {
@@ -19,4 +24,211 @@ html {
 
     width: 100vw;
     height: 100vh;
+}
+
+.savefile-carousel-container {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    width: 100%;
+    max-width: 800px;
+}
+
+.savefile-carousel {
+    display: flex;
+    overflow-x: auto;
+    scroll-behavior: smooth;
+    scroll-snap-type: x mandatory;
+    gap: 12px;
+    padding: 10px;
+    flex: 1;
+}
+
+.savefile-carousel::-webkit-scrollbar {
+    height: 8px;
+}
+
+.savefile-carousel::-webkit-scrollbar-track {
+    background: var(--clr-background);
+}
+
+.savefile-carousel::-webkit-scrollbar-thumb {
+    background: var(--clr-nav-bg);
+    border-radius: 4px;
+}
+
+.savefile-card {
+    scroll-snap-align: start;
+    flex: 0 0 auto;
+    min-width: 120px;
+    height: 60px;
+    background: var(--clr-card-bg);
+    border-radius: 8px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    text-align: center;
+    padding: 0 10px;
+    transition: all 0.2s ease;
+    cursor: default;
+}
+
+.savefile-card:hover {
+    background: var(--clr-card-hover);
+    transform: scale(1.05);
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.3);
+}
+
+.savefile-card.add-card {
+    cursor: pointer;
+}
+
+.savefile-card.add-card:hover {
+    background: var(--clr-add-card-hover);
+}
+
+.carousel-nav {
+    width: 40px;
+    height: 60px;
+    background: var(--clr-nav-bg);
+    border: none;
+    border-radius: 8px;
+    color: white;
+    font-size: 20px;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: background 0.2s ease;
+}
+
+.carousel-nav:hover {
+    background: var(--clr-nav-hover);
+}
+
+.carousel-nav:active {
+    background: #333;
+}
+
+#dialogue-options {
+    display: flex;
+    flex-direction: column;
+    justify-self: center;
+    gap: 10px;
+    margin-top: 20px;
+    width: 100%;
+    max-width: 400px;
+}
+
+.dialogue-option {
+    background: var(--clr-nav-bg);
+    color: var(--clr-text);
+    border: none;
+    border-radius: 8px;
+    padding: 12px 20px;
+    font-size: 16px;
+    cursor: pointer;
+    transition: all 0.2s ease;
+    width: 100%;
+}
+
+.dialogue-option:hover {
+    background: var(--clr-nav-hover);
+    transform: translateY(-2px);
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.3);
+}
+
+.dialogue-option:active {
+    background: #333;
+    transform: translateY(0);
+}
+
+.create-game-form {
+    display: flex;
+    flex-direction: column;
+    gap: 16px;
+    width: 100%;
+    max-width: 400px;
+    margin-top: 20px;
+}
+
+.create-game-form h2 {
+    color: var(--clr-text);
+    font-family: "Prompt", sans-serif;
+    font-weight: 400;
+    margin-bottom: 20px;
+    text-align: center;
+}
+
+.form-group {
+    display: flex;
+    flex-direction: column;
+    gap: 6px;
+}
+
+.form-label {
+    color: var(--clr-text);
+    font-family: "Prompt", sans-serif;
+    font-size: 14px;
+    font-weight: 500;
+}
+
+.form-input,
+.form-select {
+    background: var(--clr-card-bg);
+    color: var(--clr-text);
+    border: none;
+    border-radius: 8px;
+    font-size: 16px;
+    font-family: "Prompt", sans-serif;
+    transition: all 0.2s ease;
+}
+.form-input {
+    padding: 12px 16px;
+}
+
+.form-input:focus,
+.form-select:focus {
+    outline: none;
+    background: var(--clr-card-hover);
+    box-shadow: 0 0 0 2px rgba(255, 255, 255, 0.2);
+}
+
+.form-input::placeholder {
+    color: #999;
+}
+
+.form-select {
+    cursor: pointer;
+}
+
+.form-select option {
+    background: var(--clr-background);
+    color: var(--clr-text);
+}
+
+.form-submit {
+    background: var(--clr-nav-bg);
+    color: var(--clr-text);
+    border: none;
+    border-radius: 8px;
+    padding: 12px 20px;
+    font-size: 16px;
+    font-family: "Prompt", sans-serif;
+    font-weight: 500;
+    cursor: pointer;
+    transition: all 0.2s ease;
+    width: 100%;
+    margin-top: 8px;
+}
+
+.form-submit:hover {
+    background: var(--clr-nav-hover);
+    transform: translateY(-2px);
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.3);
+}
+
+.form-submit:active {
+    background: #333;
+    transform: translateY(0);
 }
