@@ -33,22 +33,72 @@ function renderGameContent(paragraphs, options) {
     }
 }
 
+// Convert DialogueModel to paragraphs and options arrays
+function convertDialogueModel(dialogueModel) {
+    const paragraphs = dialogueModel.paragraphs || [];
+    
+    const options = [];
+    if (dialogueModel.a) options.push(dialogueModel.a);
+    if (dialogueModel.b) options.push(dialogueModel.b);
+    if (dialogueModel.c) options.push(dialogueModel.c);
+    if (dialogueModel.d) options.push(dialogueModel.d);
+    if (dialogueModel.e) options.push(dialogueModel.e);
+    
+    return { paragraphs, options };
+}
+
+// Fetch dialogue from API
+function fetchDialogue(characterName, onSuccess, onError) {
+    $.get(`/api/dialogue/${encodeURIComponent(characterName)}`)
+        .done(function(data) {
+            if (onSuccess) onSuccess(data);
+        })
+        .fail(function() {
+            if (onError) onError();
+        });
+}
+
 // Initialize game page when loaded
 $(document).ready(function() {
-    if ($('#game-text').length) {
-        const defaultParagraphs = [
-            'You find yourself standing in a misty forest.',
-            'The trees loom tall around you, their branches disappearing into the fog.',
-            'A narrow path winds through the undergrowth ahead.'
-        ];
-        const defaultOptions = [
-            'Follow the path',
-            'Explore the trees',
-            'Call out',
-            'Turn back',
-            'Wait silently'
-        ];
+    const $gameContainer = $('.game-container');
+    if ($gameContainer.length) {
+        const characterName = $gameContainer.data('character-name');
         
-        renderGameContent(defaultParagraphs, defaultOptions);
+        if (characterName) {
+            fetchDialogue(characterName, function(dialogueModel) {
+                const { paragraphs, options } = convertDialogueModel(dialogueModel);
+                renderGameContent(paragraphs, options);
+            }, function() {
+                // Fallback to default content if no dialogue found
+                const defaultParagraphs = [
+                    'You find yourself standing in a misty forest.',
+                    'The trees loom tall around you, their branches disappearing into the fog.',
+                    'A narrow path winds through the undergrowth ahead.'
+                ];
+                const defaultOptions = [
+                    'Follow the path',
+                    'Explore the trees',
+                    'Call out',
+                    'Turn back',
+                    'Wait silently'
+                ];
+                renderGameContent(defaultParagraphs, defaultOptions);
+            });
+        } else {
+            // No character name, show default content
+            const defaultParagraphs = [
+                'You find yourself standing in a misty forest.',
+                'The trees loom tall around you, their branches disappearing into the fog.',
+                'A narrow path winds through the undergrowth ahead.'
+            ];
+            const defaultOptions = [
+                'Follow the path',
+                'Explore the trees',
+                'Call out',
+                'Turn back',
+                'Wait silently'
+            ];
+            renderGameContent(defaultParagraphs, defaultOptions);
+        }
     }
 });

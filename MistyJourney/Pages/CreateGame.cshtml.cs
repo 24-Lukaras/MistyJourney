@@ -1,31 +1,50 @@
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
+using MistyJourney.Models;
+using MistyJourney.Services;
 
 namespace MistyJourney.Pages
 {
     public class CreateGameModel : PageModel
     {
-        [BindProperty]
-        public string CharacterName { get; set; }
+        private readonly CampaignService _campaignService;
+        private readonly DialogueGenerator _dialogueGenerator;
+        
+        public CreateGameModel(
+            CampaignService campaignService,
+            DialogueGenerator dialogueGenerator)
+        {
+            _campaignService = campaignService;
+            _dialogueGenerator = dialogueGenerator;
+        }
         
         [BindProperty]
-        public string Localization { get; set; }
+        public string? CharacterName { get; set; }
+        
+        [BindProperty]
+        public string? Localization { get; set; }
         
         public void OnGet()
         {
         }
         
-        public IActionResult OnPost()
+        public async Task<IActionResult> OnPostAsync()
         {
             if (!ModelState.IsValid)
             {
                 return Page();
             }
             
-            // Here you would typically save the game configuration
-            // and redirect to the Game page or handle the creation logic
-            // For now, we'll just redirect to the Game page
-            return RedirectToPage("/Game");
+            // Create character folder and settings file via CampaignService
+            if (!string.IsNullOrEmpty(CharacterName))
+            {
+                _campaignService.CreateCharacterFolder(CharacterName, Localization);
+                var dialogue = await _dialogueGenerator.GenerateAsync(new DialogueGenerationParameters());
+                await _campaignService.AddDialogueAsync(CharacterName, dialogue);
+            }
+            
+            // Redirect to Game page with character name as route parameter
+            return RedirectToPage("/Game", new { characterName = CharacterName });
         }
     }
 }

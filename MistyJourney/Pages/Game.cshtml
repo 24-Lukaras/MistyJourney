@@ -1,10 +1,10 @@
-@page
+@page "{characterName?}"
 @model GameModel
 @{
     ViewData["Title"] = "Game";
 }
 
-<div class="game-container">
+<div class="game-container" data-character-name="@Model.CharacterName">
     <div id="game-text" class="game-text"></div>
     <div id="dialogue-options" class="dialogue-options"></div>
 </div>

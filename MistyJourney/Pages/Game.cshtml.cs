@@ -5,8 +5,11 @@ namespace MistyJourney.Pages
 {
     public class GameModel : PageModel
     {
-        public void OnGet()
+        public string? CharacterName { get; set; }
+        
+        public void OnGet(string? characterName)
         {
+            CharacterName = characterName;
         }
     }
 }

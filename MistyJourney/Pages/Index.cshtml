@@ -8,10 +8,11 @@
 <div class="savefile-carousel-container">
     <div class="savefile-card add-card" onclick="window.location = '/CreateGame'">+ New</div>
     <div class="savefile-carousel">
-        <div class="savefile-card">Save 1</div>
-        <div class="savefile-card">Save 2</div>
-        <div class="savefile-card">Save 3</div>
-        <div class="savefile-card">Save 4</div>
-        <div class="savefile-card">Save 5</div>
+        @foreach (var save in Model.Saves)
+        {
+            <div class="savefile-card" onclick="window.location = '/Game/@save.CharacterName'">
+                <div class="savefile-name">@save.CharacterName</div>
+            </div>
+        }
     </div>
 </div>
